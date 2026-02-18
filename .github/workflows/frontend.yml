@@ -12,4 +12,4 @@ jobs:
       frontend_directory: ./js
       backend_directory: .
       js_package_manager: yarn
-      main_git_branch: main
+      main_git_branch: 1.x
