@@ -9,12 +9,12 @@
     "support": {
         "issues": "https://github.com/FriendsOfFlarum/categories/issues",
         "source": "https://github.com/FriendsOfFlarum/categories",
-		"forum": "https://discuss.flarum.org/d/38778-friendsofflarum-categories"
+        "forum": "https://discuss.flarum.org/d/38778-friendsofflarum-categories"
     },
     "require": {
-        "php": "^8.1",
-        "flarum/core": "^1.8.0",
-        "flarum/tags": "^1.8.0"
+        "php": "^8.2",
+        "flarum/core": "^2.0.0-beta",
+        "flarum/tags": "*"
     },
     "replace": {
         "askvortsov/flarum-categories": "*"
