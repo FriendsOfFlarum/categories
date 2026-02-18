@@ -1,5 +1,5 @@
 import Component from 'flarum/common/Component';
-import icon from 'flarum/common/helpers/icon';
+import Icon from 'flarum/common/components/Icon';
 import ItemList from 'flarum/common/utils/ItemList';
 import classList from 'flarum/common/utils/classList';
 import app from 'flarum/forum/app';
@@ -28,7 +28,9 @@ export default class StatWidget extends Component<Attrs> {
     items.add(
       'label',
       <div class="StatWidget-label">
-        <span className="Categories-showOnMobile">{icon(this.attrs.icon)}</span>
+        <span className="Categories-showOnMobile">
+          <Icon name={this.attrs.icon} />
+        </span>
         <span className="Categories-hideOnMobile">{this.attrs.label}</span>
       </div>,
       80

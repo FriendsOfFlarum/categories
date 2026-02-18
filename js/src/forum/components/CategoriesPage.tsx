@@ -1,3 +1,4 @@
+import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import app from 'flarum/forum/app';
 import Page from 'flarum/common/components/Page';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
@@ -80,7 +81,7 @@ export default class CategoriesPage extends Page {
           app.forum.attribute('categories.fullPageDesktop') ? 'CategoriesPage-nav IndexPage-nav topNav' : 'CategoriesPage-nav IndexPage-nav sideNav'
         }
       >
-        <ul>{listItems(IndexPage.prototype.sidebarItems().toArray())}</ul>
+        <ul>{listItems(IndexSidebar.prototype.items().toArray())}</ul>
       </nav>,
       100
     );

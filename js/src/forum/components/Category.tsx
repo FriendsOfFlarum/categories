@@ -1,7 +1,7 @@
 import Component from 'flarum/common/Component';
 import Link from 'flarum/common/components/Link';
 
-import icon from 'flarum/common/helpers/icon';
+import Icon from 'flarum/common/components/Icon';
 import ItemList from 'flarum/common/utils/ItemList';
 import sortTags from 'ext:flarum/tags/utils/sortTags';
 
@@ -49,7 +49,7 @@ export default class Category extends Component<Attrs> {
     if (typeof this.tag.isUnlocked == 'function') {
       if ((this.tag.isGroupProtected() || this.tag.isPasswordProtected()) && !this.tag.isUnlocked()) {
         this.tagLocked = {
-          icon: this.tag.isPasswordProtected() ? icon('fas fa-lock') : icon('fas fa-user-lock'),
+          icon: this.tag.isPasswordProtected() ? <Icon name="fas fa-lock" /> : <Icon name="fas fa-user-lock" />,
           text: this.tag.isPasswordProtected()
             ? app.translator.trans('datlechin-tag-passwords.forum.tags_page.password_protected')
             : app.translator.trans('datlechin-tag-passwords.forum.tags_page.group_protected'),
@@ -159,7 +159,7 @@ export default class Category extends Component<Attrs> {
             this.toggleArrow(e);
           }}
         >
-          {icon(this.collapsed ? 'fas fa-caret-down' : 'fas fa-caret-up')}
+          <Icon name={this.collapsed ? 'fas fa-caret-down' : 'fas fa-caret-up'} />
         </button>,
         10
       );
@@ -227,14 +227,20 @@ export default class Category extends Component<Attrs> {
           {!!app.forum.attribute('categories.childBareIcon') && (
             <i className="fa fa-circle fa-stack-2x icon-background" style={{ color: this.tag.color() }}></i>
           )}
-          {icon(this.tag.icon(), { className: iconClasses, style: style })}
+          <Icon name={this.tag.icon()} className={iconClasses} style={style} />
         </span>,
         10
       );
     } else if (this.tag.icon() && !app.forum.attribute('categories.parentRemoveIcon')) {
       const classes = this.compactMobileMode ? 'fa-stack fa-2x' : 'fa-stack fa-3x';
 
-      items.add('icon', <span className={classes}>{icon(this.tag.icon(), { className: 'fa-stack-1x CategoryIcon' })}</span>, 10);
+      items.add(
+        'icon',
+        <span className={classes}>
+          <Icon name={this.tag.icon()} className="fa-stack-1x CategoryIcon" />
+        </span>,
+        10
+      );
     }
 
     return items;

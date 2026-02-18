@@ -2,7 +2,7 @@ import { extend } from 'flarum/common/extend';
 import BasicsPage from 'flarum/admin/components/BasicsPage';
 
 app.initializers.add('fof-categories', () => {
-  app.extensionData
+  app.registry
     .for('fof-categories')
     .registerSetting(() => <legend class="categories-legend">{app.translator.trans('fof-categories.admin.headings.nav')}</legend>, 10)
     .registerSetting(
@@ -61,7 +61,7 @@ app.initializers.add('fof-categories', () => {
       type: 'switch',
     });
 
-  extend(BasicsPage.prototype, 'homePageItems', (items) => {
+  extend(BasicsPage, 'homePageItems', (items) => {
     items.add('categories', {
       path: '/categories',
       label: app.translator.trans('fof-categories.admin.basics.categories_label'),

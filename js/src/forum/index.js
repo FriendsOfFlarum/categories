@@ -1,3 +1,4 @@
+import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import { extend } from 'flarum/common/extend';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import LinkButton from 'flarum/common/components/LinkButton';
@@ -43,7 +44,7 @@ app.initializers.add('fof-categories', () => {
 
   Tag.prototype.postCount = Model.attribute('postCount');
 
-  extend(IndexPage.prototype, 'navItems', function (items) {
+  extend(IndexSidebar.prototype, 'navItems', function (items) {
     items.add(
       'categories',
       <LinkButton icon="fas fa-th-list" href={app.route('categories')}>
@@ -61,7 +62,7 @@ app.initializers.add('fof-categories', () => {
     return items;
   });
 
-  extend(IndexPage.prototype, 'sidebarItems', function (items) {
+  extend(IndexSidebar.prototype, 'items', function (items) {
     pruneIndexNav(items, (item) => item !== 'newDiscussion' && item !== 'nav');
     return items;
   });
