@@ -15,7 +15,7 @@
 @categories-sub-dark-color-muted: darken(@categories-color-white, 11%);
 @categories-sub-dark-color-more-muted: darken(@categories-color-white, 25%);
 
-.define-colors(@config-dark-mode);
+.define-colors(@config-dark-mode); /* @TODO: use [data-theme^=dark] and [data-theme^=light] instead */
 .define-colors(false) {
   @categories-sub-color-background: darken(#fff, 10%);
   @categories-sub-color-background-hover: darken(#fff, 15%);
@@ -251,7 +251,7 @@
     border-radius: 6px;
     display: flex;
     justify-content: space-between;
-    background-color: @primary-color;
+    background-color: var(--primary-color);
     text-decoration: none !important;
     color: @categories-color-highlighted;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.18),
