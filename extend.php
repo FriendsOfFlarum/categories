@@ -20,6 +20,10 @@ use Flarum\Post\Event\Restored;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\Tags\Api\Controller\ListTagsController;
 use Flarum\Tags\Api\Serializer\TagSerializer;
+use Flarum\Api\Context;
+use Flarum\Api\Endpoint;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
 
 return [
     (new Extend\Frontend('forum'))
@@ -41,9 +45,11 @@ return [
         ->serializeToForum('categories.parentRemoveLastDiscussion', 'fof-categories.parent-remove-last-discussion', 'boolval')
         ->serializeToForum('categories.childBareIcon', 'fof-categories.child-bare-icon', 'boolval', true),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiController(ListTagsController::class))
         ->addOptionalInclude('lastPostedDiscussion.lastPostedUser'),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiSerializer(TagSerializer::class))
         ->attributes(function ($serializer, $model, $attributes) {
             $settings = resolve(SettingsRepositoryInterface::class);
@@ -62,6 +68,7 @@ return [
             return $attributes;
         }),
 
+    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
     (new Extend\ApiSerializer(BasicUserSerializer::class))
         ->attribute('joinTime', function ($serializer, $model) {
             return $serializer->formatDate($model->joined_at);
