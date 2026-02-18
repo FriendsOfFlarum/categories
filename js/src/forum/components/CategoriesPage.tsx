@@ -7,8 +7,8 @@ import ItemList from 'flarum/common/utils/ItemList';
 import extractText from 'flarum/common/utils/extractText';
 import classList from 'flarum/common/utils/classList';
 
-import sortTags from 'flarum/tags/utils/sortTags';
-import tagLabel from 'flarum/tags/helpers/tagLabel';
+import sortTags from 'ext:flarum/tags/utils/sortTags';
+import tagLabel from 'ext:flarum/tags/helpers/tagLabel';
 
 import Category from './Category';
 
