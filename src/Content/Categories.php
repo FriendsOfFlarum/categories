@@ -19,7 +19,7 @@ use Flarum\Tags\TagRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Flarum\Locale\TranslatorInterface;
 
 class Categories
 {
@@ -54,7 +54,7 @@ class Categories
 
     private function getTagsDocument(Request $request)
     {
-        return json_decode($this->api->withParentRequest($request)->withQueryParams([
+        return json_decode($this->api->withoutErrorHandling()->withParentRequest($request)->withQueryParams([
             'include' => 'children,parent,lastPostedDiscussion,lastPostedDiscussion.lastPostedUser',
         ])->get('/tags')->getBody(), true);
     }

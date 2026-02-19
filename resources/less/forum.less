@@ -15,18 +15,15 @@
 @categories-sub-dark-color-muted: darken(@categories-color-white, 11%);
 @categories-sub-dark-color-more-muted: darken(@categories-color-white, 25%);
 
-.define-colors(@config-dark-mode); /* @TODO: use [data-theme^=dark] and [data-theme^=light] instead */
-.define-colors(false) {
-  @categories-sub-color-background: darken(#fff, 10%);
-  @categories-sub-color-background-hover: darken(#fff, 15%);
-  @categories-sub-color-highlighted: lighten(#000, 5%);
-  @categories-sub-color-muted: lighten(@categories-sub-color-highlighted, 30%);
-  @categories-sub-color-more-muted: lighten(
-    @categories-sub-color-highlighted,
-    75%
-  );
-}
-.define-colors(true) {
+// Light mode (varsayılan)
+@categories-sub-color-background: darken(#fff, 10%);
+@categories-sub-color-background-hover: darken(#fff, 15%);
+@categories-sub-color-highlighted: lighten(#000, 5%);
+@categories-sub-color-muted: lighten(@categories-sub-color-highlighted, 30%);
+@categories-sub-color-more-muted: lighten(@categories-sub-color-highlighted, 75%);
+
+// Dark mode
+[data-theme^="dark"] {
   @categories-sub-color-background: @categories-sub-dark-color-background;
   @categories-sub-color-background-hover: @categories-sub-dark-color-background-hover;
   @categories-sub-color-highlighted: @categories-sub-dark-color-highlighted;

@@ -8,5 +8,5 @@ jobs:
     with:
       enable_backend_testing: false
       enable_phpstan: false
+
       backend_directory: .
-      php_versions: '["8.2", "8.3", "8.4"]'

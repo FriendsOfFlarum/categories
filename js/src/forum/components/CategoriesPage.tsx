@@ -2,16 +2,17 @@ import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import app from 'flarum/forum/app';
 import Page from 'flarum/common/components/Page';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
-import IndexPage from 'flarum/forum/components/IndexPage';
-import listItems from 'flarum/common/helpers/listItems';
 import ItemList from 'flarum/common/utils/ItemList';
 import extractText from 'flarum/common/utils/extractText';
 import classList from 'flarum/common/utils/classList';
 
-import sortTags from 'ext:flarum/tags/utils/sortTags';
-import tagLabel from 'ext:flarum/tags/helpers/tagLabel';
+import sortTags from 'ext:flarum/tags/common/utils/sortTags';
+import tagLabel from 'ext:flarum/tags/common/helpers/tagLabel';
 
 import Category from './Category';
+
+import PageStructure from 'flarum/forum/components/PageStructure';
+import WelcomeHero from 'flarum/forum/components/WelcomeHero';
 
 export default class CategoriesPage extends Page {
   tags!: any[];
@@ -47,58 +48,40 @@ export default class CategoriesPage extends Page {
       return <LoadingIndicator />;
     }
 
-    const classes = ['CategoriesPage'];
-
-    return <div className={classList(classes)}>{this.pageItems().toArray()}</div>;
-  }
-
-  pageItems() {
-    const items = new ItemList();
-
-    items.add('hero', IndexPage.prototype.hero(), 100);
-
-    items.add(
-      'container',
-      <div className={app.forum.attribute('categories.fullPageDesktop') ? 'container topNavContainer' : 'container sideNavContainer'}>
-        {this.containerItems().toArray()}
-      </div>,
-      50
+    return (
+      <PageStructure className="CategoriesPage" hero={this.hero.bind(this)} sidebar={this.sidebar.bind(this)}>
+        {this.contentItems().toArray()}
+      </PageStructure>
     );
-
-    return items;
   }
 
-  containerItems() {
+  hero() {
+    return <WelcomeHero />;
+  }
+
+  sidebar() {
+    return <IndexSidebar />;
+  }
+
+  contentItems() {
     const items = new ItemList();
 
     const pinned = this.tags.filter((tag) => tag.position() !== null);
     const cloud = this.tags.filter((tag) => tag.position() === null);
 
     items.add(
-      'sideNav',
-      <nav
-        className={
-          app.forum.attribute('categories.fullPageDesktop') ? 'CategoriesPage-nav IndexPage-nav topNav' : 'CategoriesPage-nav IndexPage-nav sideNav'
-        }
-      >
-        <ul>{listItems(IndexSidebar.prototype.items().toArray())}</ul>
-      </nav>,
+      'categoriesList',
+      <ol className="TagCategoryList">
+        {pinned.map((tag) => {
+          return Category.component({ model: tag });
+        })}
+      </ol>,
       100
     );
 
-    items.add(
-      'categoriesList',
-      <div className="CategoriesPage-content sideNavOffset">
-        <ol className="TagCategoryList">
-          {pinned.map((tag) => {
-            return Category.component({ model: tag });
-          })}
-        </ol>
-
-        {cloud.length ? <div className="TagCloud">{cloud.map((tag) => [tagLabel(tag, { link: true }), ' '])}</div> : ''}
-      </div>,
-      50
-    );
+    if (cloud.length) {
+      items.add('cloud', <div className="TagCloud">{cloud.map((tag) => [tagLabel(tag, { link: true }), ' '])}</div>, 10);
+    }
 
     return items;
   }

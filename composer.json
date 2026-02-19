@@ -11,10 +11,17 @@
         "source": "https://github.com/FriendsOfFlarum/categories",
         "forum": "https://discuss.flarum.org/d/38778-friendsofflarum-categories"
     },
+    "homepage": "https://friendsofflarum.org",
+    "funding": [
+        {
+            "type": "website",
+            "url": "https://opencollective.com/fof/donate"
+        }
+    ],
     "require": {
         "php": "^8.2",
-        "flarum/core": "^2.0.0-beta",
-        "flarum/tags": "*"
+        "flarum/core": "^2.0.0",
+        "flarum/tags": "^2.0.0"
     },
     "replace": {
         "askvortsov/flarum-categories": "*"
@@ -58,5 +65,7 @@
                 "styleci": true
             }
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

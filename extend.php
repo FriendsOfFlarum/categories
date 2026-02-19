@@ -12,18 +12,15 @@
 namespace FoF\Categories;
 
 use FoF\Categories\Content\Categories;
-use Flarum\Api\Serializer\BasicUserSerializer;
 use Flarum\Extend;
 use Flarum\Post\Event\Hidden;
 use Flarum\Post\Event\Posted;
 use Flarum\Post\Event\Restored;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Flarum\Tags\Api\Controller\ListTagsController;
-use Flarum\Tags\Api\Serializer\TagSerializer;
 use Flarum\Api\Context;
-use Flarum\Api\Endpoint;
-use Flarum\Api\Resource;
 use Flarum\Api\Schema;
+use Flarum\Api\Resource\UserResource;
+use Flarum\Tags\Api\Resource\TagResource;
 
 return [
     (new Extend\Frontend('forum'))
@@ -45,34 +42,35 @@ return [
         ->serializeToForum('categories.parentRemoveLastDiscussion', 'fof-categories.parent-remove-last-discussion', 'boolval')
         ->serializeToForum('categories.childBareIcon', 'fof-categories.child-bare-icon', 'boolval', true),
 
-    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
-    (new Extend\ApiController(ListTagsController::class))
-        ->addOptionalInclude('lastPostedDiscussion.lastPostedUser'),
+    (new Extend\ApiResource(TagResource::class))
+            ->fields(fn () => [
+                Schema\Integer::make('postCount')
+                    ->get(function (\Flarum\Tags\Tag $tag, Context $context) {
+                        $settings = resolve(SettingsRepositoryInterface::class);
+                        if ($settings->get('fof-categories.small-forum-optimized', false)) {
+                            return (int) $tag->discussions()
+                                ->whereVisibleTo($context->getActor())
+                                ->sum('comment_count');
+                        }
+                        return (int) $tag->post_count;
+                    }),
+                Schema\Integer::make('discussionCount')
+                    ->get(function (\Flarum\Tags\Tag $tag, Context $context) {
+                        $settings = resolve(SettingsRepositoryInterface::class);
+                        if ($settings->get('fof-categories.small-forum-optimized', false)) {
+                            return (int) $tag->discussions()
+                                ->whereVisibleTo($context->getActor())
+                                ->count();
+                        }
+                        return (int) $tag->discussion_count;
+                    }),
+            ]),
 
-    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
-    (new Extend\ApiSerializer(TagSerializer::class))
-        ->attributes(function ($serializer, $model, $attributes) {
-            $settings = resolve(SettingsRepositoryInterface::class);
-            if ($settings->get('fof-categories.small-forum-optimized', false)) {
-                $result = $model->discussions()
-                    ->selectRaw('sum(comment_count) as postCount, count(id) as discussionCount')
-                    ->whereVisibleTo($serializer->getActor())
-                    ->get()[0];
-                $attributes['discussionCount'] = (int) $result['discussionCount'];
-                $attributes['postCount'] = (int) $result['postCount'];
-            } else {
-                // discussion count is loaded this way by default, no need to reiterate
-                $attributes['postCount'] = (int) $model->post_count;
-            }
-
-            return $attributes;
-        }),
-
-    // @TODO: Replace with the new implementation https://docs.flarum.org/2.x/extend/api#extending-api-resources
-    (new Extend\ApiSerializer(BasicUserSerializer::class))
-        ->attribute('joinTime', function ($serializer, $model) {
-            return $serializer->formatDate($model->joined_at);
-        }),
+    (new Extend\ApiResource(UserResource::class))
+            ->fields(fn () => [
+                Schema\DateTime::make('joinTime')
+                    ->property('joined_at'),
+            ]),
 
     new Extend\Locales(__DIR__.'/resources/locale'),
 

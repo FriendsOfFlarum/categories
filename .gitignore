@@ -1,3 +1,13 @@
-node_modules
-vendor
+js/node_modules
+/vendor
 composer.lock
+composer.phar
+
+.DS_Store
+Thumbbs.db
+tests/.phpunit.result.cache
+/tests/integration/tmp
+.vagrant
+.idea/*
+.vscode
+js/coverage-ts

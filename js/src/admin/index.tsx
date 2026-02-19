@@ -1,3 +1,4 @@
+import app from 'flarum/admin/app';
 import { extend } from 'flarum/common/extend';
 import BasicsPage from 'flarum/admin/components/BasicsPage';
 

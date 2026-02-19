@@ -3,7 +3,7 @@ import Link from 'flarum/common/components/Link';
 
 import Icon from 'flarum/common/components/Icon';
 import ItemList from 'flarum/common/utils/ItemList';
-import sortTags from 'ext:flarum/tags/utils/sortTags';
+import sortTags from 'ext:flarum/tags/common/utils/sortTags';
 
 import StatWidget from './StatWidget';
 import LastDiscussionWidget from './LastDiscussionWidget';
