@@ -2,25 +2,26 @@
 
 /*
  * This file is part of fof/categories
- *
- *  Copyright (c) FriendsOfFlarum.
- *
- *  For detailed copyright and license information, please view the
- *  LICENSE file that was distributed with this source code.
+ *  *
+ *  *  Copyright (c) 2021 Alexander Skvortsov.
+ *  *  Copyright (c) 2025 FriendsOfFlarum.
+ *  *
+ *  *  For detailed copyright and license information, please view the
+ *  *  LICENSE file that was distributed with this source code.
  */
 
 namespace FoF\Categories;
 
-use FoF\Categories\Content\Categories;
+use Flarum\Api\Context;
+use Flarum\Api\Resource\UserResource;
+use Flarum\Api\Schema;
 use Flarum\Extend;
 use Flarum\Post\Event\Hidden;
 use Flarum\Post\Event\Posted;
 use Flarum\Post\Event\Restored;
 use Flarum\Settings\SettingsRepositoryInterface;
-use Flarum\Api\Context;
-use Flarum\Api\Schema;
-use Flarum\Api\Resource\UserResource;
 use Flarum\Tags\Api\Resource\TagResource;
+use FoF\Categories\Content\Categories;
 
 return [
     (new Extend\Frontend('forum'))
@@ -52,6 +53,7 @@ return [
                                 ->whereVisibleTo($context->getActor())
                                 ->sum('comment_count');
                         }
+
                         return (int) $tag->post_count;
                     }),
                 Schema\Integer::make('discussionCount')
@@ -62,6 +64,7 @@ return [
                                 ->whereVisibleTo($context->getActor())
                                 ->count();
                         }
+
                         return (int) $tag->discussion_count;
                     }),
             ]),

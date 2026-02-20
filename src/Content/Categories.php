@@ -2,11 +2,12 @@
 
 /*
  * This file is part of fof/categories
- *
- *  Copyright (c) FriendsOfFlarum.
- *
- *  For detailed copyright and license information, please view the
- *  LICENSE file that was distributed with this source code.
+ *  *
+ *  *  Copyright (c) 2021 Alexander Skvortsov.
+ *  *  Copyright (c) 2025 FriendsOfFlarum.
+ *  *
+ *  *  For detailed copyright and license information, please view the
+ *  *  LICENSE file that was distributed with this source code.
  */
 
 namespace FoF\Categories\Content;
@@ -14,12 +15,12 @@ namespace FoF\Categories\Content;
 use Flarum\Api\Client;
 use Flarum\Frontend\Document;
 use Flarum\Http\UrlGenerator;
+use Flarum\Locale\TranslatorInterface;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\Tags\TagRepository;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Arr;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Flarum\Locale\TranslatorInterface;
 
 class Categories
 {

@@ -2,11 +2,12 @@
 
 /*
  * This file is part of fof/categories
- *
- *  Copyright (c) FriendsOfFlarum.
- *
- *  For detailed copyright and license information, please view the
- *  LICENSE file that was distributed with this source code.
+ *  *
+ *  *  Copyright (c) 2021 Alexander Skvortsov.
+ *  *  Copyright (c) 2025 FriendsOfFlarum.
+ *  *
+ *  *  For detailed copyright and license information, please view the
+ *  *  LICENSE file that was distributed with this source code.
  */
 
 namespace FoF\Categories;
@@ -19,13 +20,13 @@ class Util
      */
     public static function updateTagsPostCount($post, $delta)
     {
-        if (!$post) {
+        if (! $post) {
             return;
         }
 
         foreach ($post->discussion->tags as $tag) {
             // We do not count private discussions in tags
-            if (!$post->is_private && !$post->discussion->is_private) {
+            if (! $post->is_private && ! $post->discussion->is_private) {
                 $tag->post_count += $delta;
             }
 
