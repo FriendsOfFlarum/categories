@@ -5,12 +5,9 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import ItemList from 'flarum/common/utils/ItemList';
 import extractText from 'flarum/common/utils/extractText';
 import classList from 'flarum/common/utils/classList';
-
 import sortTags from 'ext:flarum/tags/common/utils/sortTags';
 import tagLabel from 'ext:flarum/tags/common/helpers/tagLabel';
-
 import Category from './Category';
-
 import PageStructure from 'flarum/forum/components/PageStructure';
 import WelcomeHero from 'flarum/forum/components/WelcomeHero';
 
@@ -48,8 +45,14 @@ export default class CategoriesPage extends Page {
       return <LoadingIndicator />;
     }
 
+    const fullPageDesktop = !!app.forum.attribute('categories.fullPageDesktop');
+
     return (
-      <PageStructure className="CategoriesPage" hero={this.hero.bind(this)} sidebar={this.sidebar.bind(this)}>
+      <PageStructure
+        className={classList('CategoriesPage', { 'Page--vertical': fullPageDesktop })}
+        hero={this.hero.bind(this)}
+        sidebar={this.sidebar.bind(this)}
+      >
         {this.contentItems().toArray()}
       </PageStructure>
     );
