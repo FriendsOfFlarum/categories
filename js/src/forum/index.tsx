@@ -38,7 +38,10 @@ app.initializers.add('fof-categories', () => {
     );
 
     if (items.has('moreTags')) {
-      items.setContent('moreTags', <LinkButton href={app.route('categories')}>{app.translator.trans('flarum-tags.forum.index.more_link')}</LinkButton>);
+      items.setContent(
+        'moreTags',
+        <LinkButton href={app.route('categories')}>{app.translator.trans('flarum-tags.forum.index.more_link')}</LinkButton>
+      );
     }
 
     pruneIndexNav(items, (item) => item.startsWith('tag'));
