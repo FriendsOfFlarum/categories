@@ -19,9 +19,14 @@
         }
     ],
     "require": {
-        "php": "^8.2",
         "flarum/core": "^2.0.0",
         "flarum/tags": "^2.0.0"
+    },
+    "require-dev": {
+        "flarum/phpstan": "^2.0.0",
+        "flarum/flags": "^2.0.0",
+        "flarum/audit": "^2.0.0",
+        "flarum/realtime": "^2.0.0"
     },
     "replace": {
         "askvortsov/flarum-categories": "*"
@@ -65,6 +70,10 @@
                 "styleci": true
             }
         }
+    },
+    "scripts": {
+        "analyse:phpstan": "phpstan analyse",
+        "clear-cache:phpstan": "phpstan clear-result-cache"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

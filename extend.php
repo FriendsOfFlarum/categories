@@ -34,6 +34,7 @@ return [
         ->css(__DIR__.'/resources/less/admin.less'),
 
     (new Extend\Settings())
+        ->default('fof-categories.child-bare-icon', true)
         ->serializeToForum('categories.keepTagsNav', 'fof-categories.keep-tags-nav', 'boolval')
         ->serializeToForum('categories.fullPageDesktop', 'fof-categories.full-page-desktop', 'boolval')
         ->serializeToForum('categories.compactMobile', 'fof-categories.compact-mobile', 'boolval')
@@ -41,7 +42,7 @@ return [
         ->serializeToForum('categories.parentRemoveDescription', 'fof-categories.parent-remove-description', 'boolval')
         ->serializeToForum('categories.parentRemoveStats', 'fof-categories.parent-remove-stats', 'boolval')
         ->serializeToForum('categories.parentRemoveLastDiscussion', 'fof-categories.parent-remove-last-discussion', 'boolval')
-        ->serializeToForum('categories.childBareIcon', 'fof-categories.child-bare-icon', 'boolval', true),
+        ->serializeToForum('categories.childBareIcon', 'fof-categories.child-bare-icon', 'boolval'),
 
     (new Extend\ApiResource(TagResource::class))
             ->fields(fn () => [
@@ -54,7 +55,9 @@ return [
                                 ->sum('comment_count');
                         }
 
-                        return (int) $tag->post_count;
+                        // `post_count` is added to the `tags` table by this extension's
+                        // migration, so it is not a declared property on core's Tag model.
+                        return (int) $tag->getAttribute('post_count');
                     }),
                 Schema\Integer::make('discussionCount')
                     ->get(function (\Flarum\Tags\Tag $tag, Context $context) {
