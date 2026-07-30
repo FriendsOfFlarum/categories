@@ -28,17 +28,17 @@ class Categories
     {
     }
 
-    public function __invoke(Document $document, Request $request)
+    public function __invoke(Document $document, Request $request): Document
     {
         $apiDocument = $this->getTagsDocument($request);
-        $tags = collect(Arr::get($apiDocument, 'data', []));
+        $tags = collect($this->extractTags($apiDocument));
 
         $childTags = $tags->where('attributes.isChild', true);
         $primaryTags = $tags->where('attributes.isChild', false)->where('attributes.position', '!==', null)->sortBy('attributes.position');
         $secondaryTags = $tags->where('attributes.isChild', false)->where('attributes.position', '===', null)->sortBy('attributes.name');
 
-        $children = $primaryTags->mapWithKeys(function ($tag) use ($childTags) {
-            $childIds = collect(Arr::get($tag, 'relationships.children.data'))->pluck('id');
+        $children = $primaryTags->mapWithKeys(function (array $tag) use ($childTags) {
+            $childIds = collect($this->extractRelated($tag, 'relationships.children.data'))->pluck('id');
 
             return [$tag['id'] => $childTags->whereIn('id', $childIds)->sortBy('position')];
         });
@@ -53,10 +53,55 @@ class Categories
         return $document;
     }
 
-    private function getTagsDocument(Request $request)
+    /**
+     * @return array<string, mixed>
+     */
+    private function getTagsDocument(Request $request): array
     {
-        return json_decode($this->api->withoutErrorHandling()->withParentRequest($request)->withQueryParams([
+        $document = json_decode((string) $this->api->withoutErrorHandling()->withParentRequest($request)->withQueryParams([
             'include' => 'children,parent,lastPostedDiscussion,lastPostedDiscussion.lastPostedUser',
         ])->get('/tags')->getBody(), true);
+
+        return is_array($document) ? $document : [];
+    }
+
+    /**
+     * The top-level `data` member of the tags API document.
+     *
+     * @param array<string, mixed> $apiDocument
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function extractTags(array $apiDocument): array
+    {
+        $tags = [];
+
+        foreach (Arr::get($apiDocument, 'data', []) as $tag) {
+            if (is_array($tag)) {
+                $tags[] = $tag;
+            }
+        }
+
+        return $tags;
+    }
+
+    /**
+     * A resource-identifier list from a tag's relationships, e.g. its children.
+     *
+     * @param array<string, mixed> $tag
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function extractRelated(array $tag, string $key): array
+    {
+        $related = [];
+
+        foreach (Arr::get($tag, $key) ?? [] as $identifier) {
+            if (is_array($identifier)) {
+                $related[] = $identifier;
+            }
+        }
+
+        return $related;
     }
 }
