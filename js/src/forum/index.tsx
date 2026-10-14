@@ -2,12 +2,14 @@ import app from 'flarum/forum/app';
 import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import { extend as mithrilExtend } from 'flarum/common/extend';
 import LinkButton from 'flarum/common/components/LinkButton';
-import CategoriesPage from './components/CategoriesPage';
 import TagsPage from 'ext:flarum/tags/forum/components/TagsPage';
 import type ItemList from 'flarum/common/utils/ItemList';
 import type Mithril from 'mithril';
 
 export { default as extend } from './extend';
+
+// Lazy loaded, so referred to by module path rather than imported.
+const CategoriesPage = 'ext:fof/categories/forum/components/CategoriesPage';
 
 function pruneIndexNav(items: ItemList<Mithril.Children>, func: (key: string) => boolean) {
   const isTagsPageVisible = app.forum.attribute('categories.keepTagsNav');
@@ -47,6 +49,8 @@ app.initializers.add('fof-categories', () => {
 
     pruneIndexNav(items, (item) => item.startsWith('tag'));
   });
+
+  app.prefetch.add('fof-categories.categoriesPage', () => import('./components/CategoriesPage'));
 
   if ('fof-forum-widgets-core' in flarum.extensions) {
     app.widgets?.addPage(CategoriesPage);
