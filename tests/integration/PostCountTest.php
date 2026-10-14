@@ -36,12 +36,12 @@ class PostCountTest extends TestCase
             ],
             'discussions' => [
                 // Two comments, counted in General.
-                ['id' => 1, 'title' => 'Counted', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'last_post_id' => 2, 'last_post_number' => 2, 'comment_count' => 2],
+                ['id' => 1, 'title' => 'Counted', 'slug' => 'counted', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 1, 'last_post_id' => 2, 'last_post_number' => 2, 'comment_count' => 2],
                 // One comment, counted in Other.
-                ['id' => 2, 'title' => 'Elsewhere', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 3, 'last_post_id' => 3, 'last_post_number' => 1, 'comment_count' => 1],
+                ['id' => 2, 'title' => 'Elsewhere', 'slug' => 'elsewhere', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 3, 'last_post_id' => 3, 'last_post_number' => 1, 'comment_count' => 1],
                 // Private and hidden discussions are never counted, as for the tag's discussion count.
-                ['id' => 3, 'title' => 'Private', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 4, 'last_post_id' => 4, 'last_post_number' => 1, 'comment_count' => 1, 'is_private' => true],
-                ['id' => 4, 'title' => 'Hidden', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 5, 'last_post_id' => 5, 'last_post_number' => 1, 'comment_count' => 1, 'hidden_at' => Carbon::now()],
+                ['id' => 3, 'title' => 'Private', 'slug' => 'private', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 4, 'last_post_id' => 4, 'last_post_number' => 1, 'comment_count' => 1, 'is_private' => true],
+                ['id' => 4, 'title' => 'Hidden', 'slug' => 'hidden', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'first_post_id' => 5, 'last_post_id' => 5, 'last_post_number' => 1, 'comment_count' => 1, 'hidden_at' => Carbon::now()],
             ],
             'posts' => [
                 ['id' => 1, 'discussion_id' => 1, 'number' => 1, 'created_at' => Carbon::now(), 'user_id' => 1, 'type' => 'comment', 'content' => '<t><p>First</p></t>'],
@@ -212,9 +212,9 @@ class PostCountTest extends TestCase
 
         // Recounting reads every discussion in the tag, which is far too slow on a large forum.
         $queries = array_column($this->database()->getQueryLog(), 'query');
-        $tagUpdates = array_filter($queries, fn (string $query) => preg_match('/^update [`"]?tags[`"]? set [`"]?post_count/i', $query));
+        $tagUpdates = array_filter($queries, fn (string $query) => preg_match('/^update [`"]?\w*tags[`"]? set [`"]?post_count/i', $query));
 
-        $this->assertEmpty(array_filter($queries, fn (string $query) => preg_match('/sum\([`"]?discussions[`"]?\.[`"]?comment_count/i', $query)));
+        $this->assertEmpty(array_filter($queries, fn (string $query) => preg_match('/sum\([`"]?\w*discussions[`"]?\.[`"]?comment_count/i', $query)));
         $this->assertCount(1, $tagUpdates);
         $this->assertSame(3, $this->postCount(1));
     }

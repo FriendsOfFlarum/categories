@@ -30,8 +30,8 @@ class RecountPostsCommandTest extends ConsoleTestCase
                 ['id' => 2, 'name' => 'Empty', 'slug' => 'empty', 'position' => 1, 'post_count' => 5],
             ],
             'discussions' => [
-                ['id' => 1, 'title' => 'Counted', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'comment_count' => 3],
-                ['id' => 2, 'title' => 'Private', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'comment_count' => 4, 'is_private' => true],
+                ['id' => 1, 'title' => 'Counted', 'slug' => 'counted', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'comment_count' => 3],
+                ['id' => 2, 'title' => 'Private', 'slug' => 'private', 'created_at' => Carbon::now(), 'last_posted_at' => Carbon::now(), 'user_id' => 1, 'comment_count' => 4, 'is_private' => true],
             ],
             'discussion_tag' => [
                 ['discussion_id' => 1, 'tag_id' => 1],

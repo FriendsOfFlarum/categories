@@ -61,12 +61,16 @@ class PostCount
     {
         // One grouped query reads the tables in a single pass. Counting tag by tag looks every
         // discussion up separately, which took over ten times as long on two million discussions.
-        $counts = $this->db->table('discussions')
+        $query = $this->db->table('discussions');
+
+        $counts = $query
             ->join('discussion_tag', 'discussion_tag.discussion_id', '=', 'discussions.id')
             ->where('discussions.is_private', false)
             ->whereNull('discussions.hidden_at')
             ->groupBy('discussion_tag.tag_id')
-            ->selectRaw('discussion_tag.tag_id, SUM(discussions.comment_count) AS post_count')
+            ->select('discussion_tag.tag_id')
+            // Wrapped by the grammar, which adds the table prefix that raw SQL doesn't get.
+            ->selectRaw('SUM('.$query->getGrammar()->wrap('discussions.comment_count').') AS post_count')
             ->pluck('post_count', 'tag_id');
 
         foreach ($this->db->table('tags')->pluck('id') as $tagId) {
