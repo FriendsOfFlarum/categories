@@ -4,11 +4,12 @@ import { extend as mithrilExtend } from 'flarum/common/extend';
 import LinkButton from 'flarum/common/components/LinkButton';
 import CategoriesPage from './components/CategoriesPage';
 import TagsPage from 'ext:flarum/tags/forum/components/TagsPage';
-import Category from './components/Category';
-import LastDiscussionWidget from './components/LastDiscussionWidget';
-import StatWidget from './components/StatWidget';
+import type ItemList from 'flarum/common/utils/ItemList';
+import type Mithril from 'mithril';
 
-function pruneIndexNav(items: any, func: (key: string) => boolean) {
+export { default as extend } from './extend';
+
+function pruneIndexNav(items: ItemList<Mithril.Children>, func: (key: string) => boolean) {
   const isTagsPageVisible = app.forum.attribute('categories.keepTagsNav');
   const isCustomTagsHidden = app.current.matches(CategoriesPage) || app.current.matches(TagsPage);
 
@@ -28,7 +29,7 @@ function pruneIndexNav(items: any, func: (key: string) => boolean) {
 }
 
 app.initializers.add('fof-categories', () => {
-  mithrilExtend(IndexSidebar.prototype, 'navItems', function (items) {
+  mithrilExtend(IndexSidebar.prototype, 'navItems', function (items: ItemList<Mithril.Children>) {
     items.add(
       'categories',
       <LinkButton icon="fas fa-th-list" href={app.route('categories')}>
@@ -45,19 +46,9 @@ app.initializers.add('fof-categories', () => {
     }
 
     pruneIndexNav(items, (item) => item.startsWith('tag'));
-
-    return items;
   });
 
-  // Optional chaining keeps this working when fof/forum-widgets-core is not installed.
-  app.widgets?.addPage(CategoriesPage);
+  if ('fof-forum-widgets-core' in flarum.extensions) {
+    app.widgets?.addPage(CategoriesPage);
+  }
 });
-
-export { default as extend } from './extend';
-
-export default {
-  'components/CategoriesPage': CategoriesPage,
-  'components/Category': Category,
-  'components/LastDiscussionWidget': LastDiscussionWidget,
-  'components/StatWidget': StatWidget,
-};
