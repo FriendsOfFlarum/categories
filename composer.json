@@ -47,6 +47,7 @@
         "flarum-extension": {
             "title": "FoF Categories",
             "optional-dependencies": [
+                "flarum/realtime",
                 "fof/forum-widgets-core"
             ],
             "category": "theme",

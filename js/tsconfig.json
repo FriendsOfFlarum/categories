@@ -12,7 +12,8 @@
     "paths": {
       "flarum/*": ["../vendor/flarum/core/js/dist-typings/*"],
       "ext:flarum/tags/*": ["../vendor/flarum/tags/js/dist-typings/*"],
-      "ext:fof/forum-widgets-core/*": ["../vendor/fof/forum-widgets-core/js/dist-typings/*"]
+      "ext:fof/forum-widgets-core/*": ["../vendor/fof/forum-widgets-core/js/dist-typings/*"],
+      "ext:flarum/realtime/*": ["../vendor/flarum/realtime/js/dist-typings/*"]
     }
   }
 }
