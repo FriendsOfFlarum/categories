@@ -28,7 +28,8 @@
         "flarum/audit": "^2.0.0",
         "flarum/realtime": "^2.0.0",
         "fof/forum-widgets-core": "^2.0.2",
-        "flarum/gdpr": "^2.0.1"
+        "flarum/gdpr": "^2.0.1",
+        "flarum/testing": "^2.0"
     },
     "replace": {
         "askvortsov/flarum-categories": "*"
@@ -42,6 +43,11 @@
     "autoload": {
         "psr-4": {
             "FoF\\Categories\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FoF\\Categories\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -79,7 +85,20 @@
     },
     "scripts": {
         "analyse:phpstan": "phpstan analyse",
-        "clear-cache:phpstan": "phpstan clear-result-cache"
+        "clear-cache:phpstan": "phpstan clear-result-cache",
+        "test": [
+            "@test:integration"
+        ],
+        "test:integration": "phpunit -c tests/phpunit.integration.xml",
+        "test:integration:filter": "phpunit -c tests/phpunit.integration.xml --filter",
+        "test:setup": "@php tests/integration/setup.php"
+    },
+    "scripts-descriptions": {
+        "analyse:phpstan": "Run static analysis",
+        "test": "Runs all tests.",
+        "test:integration": "Runs all integration tests.",
+        "test:integration:filter": "Runs integration tests whose name matches: composer test:integration:filter -- ClassName",
+        "test:setup": "Sets up a database for use with integration tests. Execute this only once."
     },
     "minimum-stability": "dev",
     "prefer-stable": true
