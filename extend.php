@@ -80,4 +80,7 @@ return [
 
     (new Extend\Event())
         ->subscribe(Listener\UpdateTagPostCount::class),
+
+    (new Extend\Console())
+        ->command(Console\RecountPostsCommand::class),
 ];

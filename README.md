@@ -22,7 +22,23 @@ composer require fof/categories:"*"
 
 ```sh
 composer update fof/categories
+php flarum migrate
+php flarum cache:clear
 ```
+
+### Post counts
+
+Each category shows how many posts it has. The count leaves out hidden and private discussions, like the discussion count next to it, and is kept up to date as posts are made, hidden, restored and deleted.
+
+The posts already on your forum are counted once, during `php flarum migrate`. To count them again, for example after importing discussions directly into the database, run:
+
+```sh
+php flarum fof:categories:recount
+```
+
+It reads every tagged discussion, so on a very large forum it can take a little while; two million discussions took about four seconds in testing.
+
+If **Optimize for small forums** is enabled in the extension's settings, the counts are worked out live for each visitor instead, which gets slower as the forum grows.
 
 ### Links
 
