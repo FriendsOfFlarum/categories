@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  // `include` replaces the base config's, so the global typings it reads are listed again.
+  "include": [
+    "tests/**/*",
+    "../vendor/flarum/core/js/dist-typings/@types/**/*",
+    "../vendor/flarum/tags/js/dist-typings/@types/**/*",
+    "../vendor/fof/forum-widgets-core/js/dist-typings/@types/**/*"
+  ],
+  "files": ["./node_modules/@flarum/jest-config/shims.d.ts"]
+}

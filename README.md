@@ -5,10 +5,10 @@
 A [Flarum](http://flarum.org) extension. Traditional category layout for Flarum.
 
 ## Desktop
-![On Desktop](https://i.imgur.com/oAOusDE.png)
+![On Desktop](https://cdn.discuss.flarum.org/2026-10-14/1791969653-607925-image.png)
 
 ## Mobile
-![On Mobile](https://i.imgur.com/HA1DwwC.png)
+![On Mobile](https://cdn.discuss.flarum.org/2026-10-14/1791969712-681220-image.png)
 
 ### Installation
 
