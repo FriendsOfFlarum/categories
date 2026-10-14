@@ -313,9 +313,37 @@
 .TagCategoryList {
   padding-left: 0;
   margin-top: 0;
+  // Lets the tiles respond to the width they get, not the viewport's: a widget
+  // column beside the list (fof/forum-widgets-core) leaves them much narrower.
+  container-type: inline-size;
 
   > .TagCategory {
     margin-bottom: 25px;
+  }
+}
+
+// The page content is a flex item, so without this it never shrinks below the
+// tiles' widest row and pushes a widget column beside it off the screen.
+.CategoriesPage .Page-content {
+  min-width: 0;
+}
+
+// Too narrow for the name, stats and last discussion in one row: move the
+// stats and last discussion below the name.
+@media @tablet-up {
+  @container (max-width: 760px) {
+    .TagCategory .TagCategory-content {
+      flex-direction: column;
+
+      .TagCategory-alignStart {
+        max-width: none;
+      }
+
+      .TagCategory-alignEnd {
+        justify-content: space-between;
+        margin-top: 15px;
+      }
+    }
   }
 }
 
