@@ -27,7 +27,8 @@
         "flarum/flags": "^2.0.0",
         "flarum/audit": "^2.0.0",
         "flarum/realtime": "^2.0.0",
-        "fof/forum-widgets-core": "^2.0.2"
+        "fof/forum-widgets-core": "^2.0.2",
+        "flarum/gdpr": "^2.0.1"
     },
     "replace": {
         "askvortsov/flarum-categories": "*"
