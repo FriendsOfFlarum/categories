@@ -53,6 +53,9 @@ app.initializers.add('fof-categories', () => {
     pruneIndexNav(items, (item) => item !== 'newDiscussion' && item !== 'nav');
     return items;
   });
+
+  // Optional chaining keeps this working when fof/forum-widgets-core is not installed.
+  app.widgets?.addPage(CategoriesPage);
 });
 
 export { default as extend } from './extend';
