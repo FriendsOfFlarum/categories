@@ -13,9 +13,9 @@
 namespace FoF\Categories\Tests\integration;
 
 use Carbon\Carbon;
-use FoF\Categories\PostCount;
 use Flarum\Testing\integration\RetrievesAuthorizedUsers;
 use Flarum\Testing\integration\TestCase;
+use FoF\Categories\PostCount;
 use PHPUnit\Framework\Attributes\Test;
 
 class PostCountTest extends TestCase
