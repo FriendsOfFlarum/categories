@@ -5,7 +5,7 @@ parameters:
   level: 6
   paths:
     # Needed to resolve relationships that flarum/tags adds to core models via
-    # `Extend\Model` — e.g. `Discussion::$tags`, used in src/Util.php. This has to
+    # `Extend\Model` — e.g. `Discussion::$tags`, used in src/Listener/UpdateTagPostCount.php. This has to
     # be in `paths` rather than `scanFiles`, because Flarum's PHPStan extension
     # discovers extenders from `%paths%`.
     - vendor/flarum/tags/extend.php
