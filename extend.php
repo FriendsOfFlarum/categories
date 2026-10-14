@@ -16,9 +16,6 @@ use Flarum\Api\Context;
 use Flarum\Api\Resource\UserResource;
 use Flarum\Api\Schema;
 use Flarum\Extend;
-use Flarum\Post\Event\Hidden;
-use Flarum\Post\Event\Posted;
-use Flarum\Post\Event\Restored;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\Tags\Api\Resource\TagResource;
 use FoF\Categories\Content\Categories;
@@ -82,13 +79,5 @@ return [
     new Extend\Locales(__DIR__.'/resources/locale'),
 
     (new Extend\Event())
-        ->listen(Hidden::class, function (Hidden $event) {
-            Util::updateTagsPostCount($event->post, -1);
-        })
-        ->listen(Posted::class, function (Posted $event) {
-            Util::updateTagsPostCount($event->post, 1);
-        })
-        ->listen(Restored::class, function (Restored $event) {
-            Util::updateTagsPostCount($event->post, 1);
-        }),
+        ->subscribe(Listener\UpdateTagPostCount::class),
 ];
