@@ -45,6 +45,9 @@
     "extra": {
         "flarum-extension": {
             "title": "FoF Categories",
+            "optional-dependencies": [
+                "fof/forum-widgets-core"
+            ],
             "category": "theme",
             "icon": {
                 "name": "fas fa-th-list",
