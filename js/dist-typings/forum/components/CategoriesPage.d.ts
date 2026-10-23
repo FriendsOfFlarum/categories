@@ -1,4 +1,3 @@
-/// <reference types="mithril" />
 import Page from 'flarum/common/components/Page';
 import ItemList from 'flarum/common/utils/ItemList';
 export default class CategoriesPage extends Page {

@@ -1,4 +1,3 @@
-/// <reference types="mithril" />
 import Component from 'flarum/common/Component';
 import type Discussion from 'flarum/common/models/Discussion';
 import ItemList from 'flarum/common/utils/ItemList';
